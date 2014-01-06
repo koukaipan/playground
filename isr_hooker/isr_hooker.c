@@ -9,12 +9,20 @@
 
 static struct desc_ptr old_idtr, new_idtr;
 static unsigned long orig_isr;
+static int cnt = 0;
+
+asmlinkage void my_func(void)
+{
+	cnt++;
+	return;
+}
 
 asmlinkage void stub(void);
 asm(	
 	".text				\n"
 	".type	stub, @function		\n"
 	"stub:				\n"
+	"	call my_func		\n"
 	"	jmp *orig_isr		\n"
 );
 
@@ -55,7 +63,7 @@ static int isr_hooker_init(void)
 
 static void isr_hooker_exit(void)
 {
-	pr_info("%s\n", __func__);
+	pr_info("%s: # of occurrence in trap(%d) = %d\n", __func__, TRAP_NR, cnt);
 
 	/* restore entry */
 	load_idt((void *)&old_idtr);
