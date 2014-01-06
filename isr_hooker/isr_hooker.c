@@ -3,8 +3,9 @@
 #include <linux/sched.h>
 #include <asm/desc.h>
 #include <asm/traps.h>
+#include <asm/irq_vectors.h>
 
-/* refer: arch/x86/include/asm/traps.h */
+/* refer: arch/x86/include/asm/traps.h and .../irq_vectors.h */
 #define TRAP_NR X86_TRAP_DE
 
 static struct desc_ptr old_idtr, new_idtr;
