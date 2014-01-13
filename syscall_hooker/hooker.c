@@ -126,7 +126,7 @@ static int hooker_init(void)
 		return ret;
 
 	orig_syscall = sys_call_table[SYSCALL_NUM];
-	pr_info("orig_syscall = 0x%8lx\n", orig_syscall);
+	pr_info("[SYSCALL_HOOKER] orig_syscall = 0x%lx\n", orig_syscall);
 
 	/* modify the target entry */
 	make_page_rw((unsigned long)sys_call_table);
@@ -136,10 +136,9 @@ static int hooker_init(void)
 	return 0;
 }
 
-
 static void hooker_exit(void)
 {
-	pr_info("%s: # of occurrence in syscall(%d) = %d\n", __func__, SYSCALL_NUM, cnt);
+	pr_info("[SYSCALL_HOOKER] exit: # of occurrence in syscall(%d) = %d\n", SYSCALL_NUM, cnt);
 
 	/* restore entry */
 	make_page_rw((unsigned long)sys_call_table);
